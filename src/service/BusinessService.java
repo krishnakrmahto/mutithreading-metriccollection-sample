@@ -18,13 +18,13 @@ public class BusinessService extends Thread {
 
     while (true) {
       try {
-        Thread.sleep(100);
+        Thread.sleep(random.nextInt(10));
       } catch (InterruptedException e) {
         System.out.println("InterruptedException caught");
       }
       long end = System.currentTimeMillis();
 
-      metric.computeCurrentAverageWithSample(end - start);
+      metric.computeWithSample(end - start);
     }
   }
 }

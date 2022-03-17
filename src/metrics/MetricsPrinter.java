@@ -19,7 +19,7 @@ public class MetricsPrinter extends Thread {
         System.out.println("MetricsPrinter thread InterruptedException");
       }
 
-      double currentAverage = metric.getAverage();
+      double currentAverage = metric.get();
       System.out.println(currentAverage);
     }
   }

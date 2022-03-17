@@ -1,5 +1,7 @@
 package metrics.average;
 
+import metrics.Metric;
+
 /**
  * One object of this Metric object exists in the application, which is a single process which we
  * would like to collect metrics of. Therefore, same object will be shared by different threads.
@@ -13,16 +15,18 @@ package metrics.average;
  * Since all operations on sampleCount happen inside the synchronized computeCurrentAverageWithSample
  * method, we need not make it volatile at this point.
  */
-public class ExampleAverageMetric {
+public class ExampleAverageMetric implements Metric<Long, Double> {
 
   private long sampleCount;
   private volatile double average;
 
-  public double getAverage() {
+  @Override
+  public Double get() {
     return average;
   }
 
-  public synchronized void computeCurrentAverageWithSample(long sample) {
+  @Override
+  public synchronized void computeWithSample(Long sample) {
     double currentSum = sampleCount * average;
     sampleCount++;
     average = (currentSum + sample) / sampleCount;
