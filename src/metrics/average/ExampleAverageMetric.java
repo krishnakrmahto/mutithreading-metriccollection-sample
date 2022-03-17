@@ -8,12 +8,15 @@ import metrics.Metric;
  * Operations on long and double are not atomic.
  * computeCurrentAverageWithSample method has multiple lines of code, and hence it is easy to see
  * it is not an atomic operation without the synchronized keyword, moreover, the method does operations
- * on sampleCount and average, operations on which are non-atomic by default without the volatile
+ * on sampleCount and average, read and write operations on which are non-atomic by default without the volatile
  * keyword.
  * We have made only average as atomic because operations (both read and write) are non-atomic
  * on double are non-atomic by default, and we have a getter defined for it.
  * Since all operations on sampleCount happen inside the synchronized computeCurrentAverageWithSample
- * method, we need not make it volatile at this point.
+ * method, we need not make it volatile at this point. However, note that making sampleCount volatile
+ * wouldn't help in this case because volatile makes only reads and writes volatile, and here we
+ * are using ++ operator on it which is neither read, nor write, rather it is a combination of
+ * multiple operations.
  */
 public class ExampleAverageMetric implements Metric<Long, Double> {
 
